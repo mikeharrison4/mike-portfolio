@@ -6,8 +6,8 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <div className="bg-darkslate-grey">
-      <div className="max-w-7xl m-auto">{children}</div>
+    <div className="font-Montserrat bg-darkslate-grey">
+      <div className="max-w-7xl">{children}</div>
     </div>
   );
 }

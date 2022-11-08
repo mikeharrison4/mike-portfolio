@@ -4,14 +4,8 @@ function Map() {
   return (
     <svg
       style={{ overflow: 'visible' }}
-      version="1.1"
-      id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      x="0px"
-      y="0px"
-      width="100%"
-      height="100%"
       viewBox="215 235 230 260"
       xmlSpace="preserve"
     >
@@ -40,8 +34,7 @@ function Map() {
         <g>
           <g>
             <path
-              // id={styles.southEast}
-              className=""
+              className="fill-white"
               d="M419.9,422.77c0.35-0.28-1.7-0.35-2.19-0.35c-0.49,0-2.19-0.14-3.46-0.14c-1.27,0-3.04,0.57-3.04,0.57
 				s-2.19,0.35-2.75,0.64c-0.57,0.29-3.39,0-3.39,0s-1.84-0.07-2.9,0c-1.06,0.07-0.07-1.24-0.07-1.24h2.61c0,0,1.55-0.38,1.13-0.38
 				s-2.68-1.84-3.53-2.33c-0.85-0.49-0.28,0.14-0.64,0.42c-0.35,0.28-0.49,0.85-0.49,1.13c0,0.28-0.14,1.06-1.2,1.14
