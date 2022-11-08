@@ -11,7 +11,6 @@ function MyDocument() {
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200&display=swap"
           rel="stylesheet"
         />
-        <title>mikeharrison</title>
       </Head>
       <body>
         <Main />

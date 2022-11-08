@@ -7,7 +7,7 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   return (
     <div className="font-Montserrat">
-      <div className="max-w-7xl">{children}</div>
+      {children}
     </div>
   );
 }

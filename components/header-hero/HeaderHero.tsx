@@ -1,10 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
 import Map from './map/Map';
+import Typewriter from '../typewriter/Typewriter';
 
 function HeaderHero() {
   return (
-    <header className="bg-darkslate-grey flex flex-col md:px-24 py-20 relative">
+    <header className="flex flex-col pt-4 pb-12 relative">
       <div className="opacity-10 m-auto w-4/5 sm:w-3/5 md:w-2/5">
         <Map />
       </div>

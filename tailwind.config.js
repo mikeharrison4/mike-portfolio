@@ -14,6 +14,12 @@ module.exports = {
       colors: {
         'darkslate-grey': '#273042',
       },
+      strokeWidth: {
+        6: '6px',
+      },
+      spacing: {
+        200: '200%',
+      },
     },
   },
   plugins: [],
