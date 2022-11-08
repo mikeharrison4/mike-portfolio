@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { MouseEventHandler } from 'react';
 import Hamburger from './Hamburger';
 import styles from './Hamburger.module.scss';
@@ -9,9 +10,22 @@ interface ToggleProps {
 
 function Toggle({ handleToggleClick, toggleOn }: ToggleProps) {
   return (
-    <button type="button" onClick={handleToggleClick} className={`${toggleOn ? styles.opened : ''}`}>
+    <motion.button
+      initial={{
+        x: 250,
+      }}
+      animate={{
+        x: 0,
+      }}
+      transition={{
+        duration: 0.75,
+      }}
+      type="button"
+      onClick={handleToggleClick}
+      className={`${toggleOn ? styles.opened : ''}`}
+    >
       <Hamburger />
-    </button>
+    </motion.button>
   );
 }
 
