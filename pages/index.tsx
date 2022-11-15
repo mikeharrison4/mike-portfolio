@@ -1,16 +1,29 @@
 import React from 'react';
+
+import Container from '../components/shared/Container';
 import HeaderHero from '../components/header-hero/HeaderHero';
 import Navigation from '../components/navigation/Navigation';
-import Container from '../components/shared/container/Container';
+import About from '../components/about/About';
 
 export default function Home() {
   return (
-    <Container bgColor="bg-darkslate-grey">
+    <>
 
-      <Navigation />
+      <section id="home" className="bg-darkslate-grey">
+        <Container>
 
-      <HeaderHero />
+          <Navigation />
+          <HeaderHero />
 
-    </Container>
+        </Container>
+      </section>
+
+      <section id="about" className="py-16 mx-2 sm:mx-4">
+        <Container>
+          <About />
+        </Container>
+      </section>
+
+    </>
   );
 }

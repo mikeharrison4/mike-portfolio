@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Map from './map/Map';
 import Icon from './Icon';
+import Typewriter from '../typewriter/Typewriter';
 
 function HeaderHero() {
   return (
@@ -51,7 +52,7 @@ function HeaderHero() {
           }}
           className="text-white"
         >
-          <h1 className="text-4xl font-bold text-white mt-3">Mike Harrison</h1>
+          <h1 className="text-4xl text-white mt-3">Mike Harrison</h1>
           <div className="w-3/4 m-auto my-3">
             <div className="flex justify-between">
               <Icon url="https://www.linkedin.com/in/md-harrison/" x={-50} fgColor="white" />
@@ -61,7 +62,17 @@ function HeaderHero() {
             </div>
             <hr className="my-3 m-auto" />
           </div>
-          <span>Frontend Engineer</span>
+          <Typewriter
+            onInit={(typewriter) => {
+              typewriter
+                .typeString('<FrontendEngineer />')
+                .pauseFor(700)
+                .start();
+            }}
+            config={{
+              typingSpeed: 125,
+            }}
+          />
         </motion.div>
       </div>
     </header>

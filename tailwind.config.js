@@ -7,10 +7,10 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    fontFamily: {
+      Montserrat: ['Montserrat', ...defaultTheme.fontFamily.sans],
+    },
     extend: {
-      fontFamily: {
-        Montserrat: ['Montserrat', ...defaultTheme.fontFamily.sans],
-      },
       colors: {
         'darkslate-grey': '#273042',
       },
