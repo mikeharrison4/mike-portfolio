@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-interface Icon2Props {
+interface IconProps {
   x: number;
   href: string;
   children: React.ReactNode;
 }
 
-function Icon2({ x, children, ...props }: Icon2Props) {
+function Icon({ x, children, ...props }: IconProps) {
   return (
     <motion.div
       initial={{
@@ -38,4 +38,4 @@ function Icon2({ x, children, ...props }: Icon2Props) {
   );
 }
 
-export default Icon2;
+export default Icon;

@@ -1,12 +1,10 @@
 import React from 'react';
-import { SiTypescript, SiJavascript, SiJenkins } from 'react-icons/si';
 
 function About() {
   return (
     <div className="grid grid-cols-6 gap-2">
       <div className="col-span-2">
-        {/*<SiTypescript />*/}
-        {/*<SiJavascript />*/}
+        hello
       </div>
       <div className="col-span-4">
         <h3 className="font-bold text-3xl text-darkslate-grey mb-3">About</h3>

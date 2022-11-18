@@ -7,7 +7,7 @@ import Typewriter from '../typewriter/Typewriter';
 import {
   Twitter, LinkedIn, Instagram, Github,
 } from './icons';
-import Icon2 from './Icon2';
+import Icon from './icons/Icon';
 
 function HeaderHero() {
   return (
@@ -59,18 +59,18 @@ function HeaderHero() {
           <h1 className="text-4xl text-white mt-3">Mike Harrison</h1>
           <div className="w-3/4 m-auto my-3">
             <div className="flex justify-between relative">
-              <Icon2 href="https://www.linkedin.com/in/md-harrison/" x={-50}>
+              <Icon href="https://www.linkedin.com/in/md-harrison/" x={-50}>
                 <LinkedIn />
-              </Icon2>
-              <Icon2 href="https://twitter.com/MikeyHarrison3" x={25}>
+              </Icon>
+              <Icon href="https://twitter.com/MikeyHarrison3" x={25}>
                 <Twitter />
-              </Icon2>
-              <Icon2 href="https://github.com/mikeharrison4/" x={-25}>
+              </Icon>
+              <Icon href="https://github.com/mikeharrison4/" x={-25}>
                 <Github />
-              </Icon2>
-              <Icon2 href="https://www.instagram.com/mikeyharrison_/" x={50}>
+              </Icon>
+              <Icon href="https://www.instagram.com/mikeyharrison_/" x={50}>
                 <Instagram />
-              </Icon2>
+              </Icon>
             </div>
             <hr className="my-3 m-auto" />
           </div>

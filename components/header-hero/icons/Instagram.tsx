@@ -1,5 +1,4 @@
 import React from 'react';
-import Icon2 from '../Icon2';
 
 function Instagram() {
   return (
