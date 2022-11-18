@@ -4,8 +4,7 @@ function About() {
   return (
     <div className="grid grid-cols-6 gap-2">
       <div className="col-span-2">
-        <h3>
-        </h3>
+        hello
       </div>
       <div className="col-span-4">
         <h3 className="font-bold text-3xl text-darkslate-grey mb-3">About</h3>
