@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { SocialIcon } from 'react-social-icons';
+import { FaTwitter } from 'react-icons/fa';
+import LinkedIn from "./icons/LinkedIn";
 
 interface IconProps {
   x: number,
