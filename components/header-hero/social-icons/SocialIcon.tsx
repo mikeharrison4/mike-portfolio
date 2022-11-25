@@ -7,7 +7,7 @@ interface IconProps {
   children: React.ReactNode;
 }
 
-function Icon({ x, children, ...props }: IconProps) {
+function SocialIcon({ x, children, ...props }: IconProps) {
   return (
     <motion.div
       initial={{
@@ -38,4 +38,4 @@ function Icon({ x, children, ...props }: IconProps) {
   );
 }
 
-export default Icon;
+export default SocialIcon;

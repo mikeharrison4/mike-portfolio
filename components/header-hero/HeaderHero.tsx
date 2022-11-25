@@ -6,8 +6,8 @@ import Map from './map/Map';
 import Typewriter from '../typewriter/Typewriter';
 import {
   Twitter, LinkedIn, Instagram, Github,
-} from './icons';
-import Icon from './icons/Icon';
+} from './social-icons';
+import SocialIcon from './social-icons/SocialIcon';
 
 function HeaderHero() {
   return (
@@ -59,25 +59,25 @@ function HeaderHero() {
           <h1 className="text-4xl text-white mt-3">Mike Harrison</h1>
           <div className="w-3/4 m-auto my-3">
             <div className="flex justify-between relative">
-              <Icon href="https://www.linkedin.com/in/md-harrison/" x={-50}>
+              <SocialIcon href="https://www.linkedin.com/in/md-harrison/" x={-50}>
                 <LinkedIn />
-              </Icon>
-              <Icon href="https://twitter.com/MikeyHarrison3" x={25}>
+              </SocialIcon>
+              <SocialIcon href="https://twitter.com/MikeyHarrison3" x={25}>
                 <Twitter />
-              </Icon>
-              <Icon href="https://github.com/mikeharrison4/" x={-25}>
+              </SocialIcon>
+              <SocialIcon href="https://github.com/mikeharrison4/" x={-25}>
                 <Github />
-              </Icon>
-              <Icon href="https://www.instagram.com/mikeyharrison_/" x={50}>
+              </SocialIcon>
+              <SocialIcon href="https://www.instagram.com/mikeyharrison_/" x={50}>
                 <Instagram />
-              </Icon>
+              </SocialIcon>
             </div>
             <hr className="my-3 m-auto" />
           </div>
           <Typewriter
             onInit={(typewriter) => {
               typewriter
-                .typeString('<FrontendEngineer />')
+                .typeString('Frontend Engineer')
                 .pauseFor(700)
                 .start();
             }}
