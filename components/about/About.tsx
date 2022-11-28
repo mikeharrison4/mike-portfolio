@@ -1,10 +1,65 @@
 import React from 'react';
 
+const skillIcons = [
+  {
+    name: 'TypeScript',
+    icon: 'cib:typescript',
+  },
+  {
+    name: 'JavaScript',
+    icon: 'cib:javascript',
+  },
+  {
+    name: 'React',
+    icon: 'cib:react',
+  },
+  {
+    name: 'HTML5',
+    icon: 'cib:html5',
+  },
+  {
+    name: 'CSS3',
+    icon: 'cib:css3',
+  },
+  {
+    name: 'SASS',
+    icon: 'cib:sass-alt',
+  },
+  {
+    name: 'NPM',
+    icon: 'cib:npm',
+  },
+  {
+    name: 'Redux',
+    icon: 'cib:redux',
+  },
+  {
+    name: 'GitHub',
+    icon: 'cib:github',
+  },
+  {
+    name: 'Responsive Design',
+    icon: 'mdi:responsive',
+  },
+  {
+    name: 'Jest',
+    icon: 'cib:jest',
+  },
+  {
+    name: 'Node JS',
+    icon: 'mdi:nodejs',
+  },
+];
+
 function About() {
   return (
-    <div className="grid grid-cols-4 gap-10">
-      <ul className="col-span-1 grid grid-cols-5 place-items-center place-items-start">
-        <img height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/typescript.svg" />
+    <div className="grid grid-cols-1 sm:grid-cols-4 sm:gap-x-10 gap-y-10">
+      <ul className="col-span-1 grid grid-cols-4 md:grid-cols-5 place-items-center">
+        {skillIcons.map(({ name, icon }) => (
+          <li key={name} className="text-2xl">
+            <iconify-icon icon={icon} />
+          </li>
+        ))}
       </ul>
       <div className="col-span-3">
         <h3 className="font-bold text-3xl text-darkslate-grey mb-3">About</h3>

@@ -13,12 +13,13 @@ export default function Home() {
         <Container>
 
           <Navigation />
+
           <HeaderHero />
 
         </Container>
       </section>
 
-      <section id="about" className="py-16 mx-2 sm:mx-4">
+      <section id="about" className="py-16 mx-6 sm:mx-4">
         <Container>
           <About />
         </Container>

@@ -14,6 +14,7 @@ function MyDocument() {
       <body>
         <Main />
         <NextScript />
+        <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js" />
       </body>
     </Html>
   );
