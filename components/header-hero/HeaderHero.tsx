@@ -2,12 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-import Map from './map/Map';
 import Typewriter from '../typewriter/Typewriter';
 import {
   Twitter, LinkedIn, Instagram, Github,
 } from './social-icons';
 import SocialIcon from './social-icons/SocialIcon';
+import MapSvg from './map/map.svg';
 
 function HeaderHero() {
   return (
@@ -24,7 +24,7 @@ function HeaderHero() {
         }}
         className="opacity-10 m-auto w-4/5 sm:w-3/5 md:w-2/5"
       >
-        <Map />
+        <MapSvg />
       </motion.div>
       <div className="absolute w-full h-full text-center left-0 top-0 flex flex-col justify-center items-center pb-32">
         <motion.div
@@ -42,7 +42,7 @@ function HeaderHero() {
             duration: 0.75,
           }}
         >
-          <Image src="/mikeharrison.jpg" alt="Mike Harrison" width={100} height={100} className="rounded-full" />
+          <Image src="/mikeharrison.jpg" alt="Mike Harrison" width={100} height={100} className="rounded-full" priority />
         </motion.div>
         <motion.div
           initial={{

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from '@iconify-icon/react';
 
 const skillIcons = [
   {
@@ -57,7 +58,7 @@ function About() {
       <ul className="col-span-1 grid grid-cols-4 md:grid-cols-5 place-items-center">
         {skillIcons.map(({ name, icon }) => (
           <li key={name} className="text-2xl">
-            <iconify-icon icon={icon} />
+            <Icon icon={icon} />
           </li>
         ))}
       </ul>

@@ -4,6 +4,7 @@
     "quotes": ["error", "single"],
     "react/jsx-props-no-spreading": "off",
     "react/jsx-filename-extension": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "no-tabs": "off",
     "import/extensions": [
       "error",
