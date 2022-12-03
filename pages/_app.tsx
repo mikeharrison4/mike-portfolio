@@ -2,12 +2,16 @@ import React from 'react';
 import type { AppProps } from 'next/app';
 
 import '../styles/globals.css';
-import Layout from '../components/layout/Layout';
+import { Montserrat } from '@next/font/google';
+
+const alexandria = Montserrat({
+  variable: '--font-inter',
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
+    <div className={`${alexandria.variable} font-montserrat`}>
       <Component {...pageProps} />
-    </Layout>
+    </div>
   );
 }
