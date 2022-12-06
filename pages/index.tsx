@@ -1,9 +1,8 @@
 import React from 'react';
 
 import Container from '../components/shared/Container';
-import HeaderHero from '../components/header-hero/HeaderHero';
 import Navigation from '../components/navigation/Navigation';
-import About from '../components/about/About';
+import { HeaderHero, About, MyWork } from '../components/homepage';
 
 export default function Home() {
   return (
@@ -19,9 +18,15 @@ export default function Home() {
         </Container>
       </section>
 
-      <section id="about" className="py-16 mx-6 sm:mx-4">
+      <section id="about" className="py-16 px-6 sm:px-4">
         <Container>
           <About />
+        </Container>
+      </section>
+
+      <section id="my-work" className="py-16 px-6 sm:px-4 bg-gray-100">
+        <Container>
+          <MyWork />
         </Container>
       </section>
 

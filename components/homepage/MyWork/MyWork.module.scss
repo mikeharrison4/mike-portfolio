@@ -1,0 +1,16 @@
+.slider {
+  margin: auto;
+
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+
+  > * {
+    scroll-snap-align: start;
+    padding: 3rem 0;
+    cursor: pointer;
+    width: 100%;
+    flex: 1 0 100%;
+  }
+}

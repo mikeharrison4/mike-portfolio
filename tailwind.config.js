@@ -7,9 +7,6 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    // fontFamily: {
-    //   Montserrat: ['Montserrat', ...defaultTheme.fontFamily.sans],
-    // },
     fontFamily: {
       montserrat: ['var(--font-inter)', ...fontFamily.sans],
     },
