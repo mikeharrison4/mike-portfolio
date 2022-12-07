@@ -23,41 +23,65 @@ const projects: Array<Work> = [
     description: 'A very simple website for the single use of allowing users to contact them via a form.',
     skillsUsed: ['cib:react'],
   },
+  {
+    title: 'MR Electrical 3',
+    imageName: 'mr-electrical.jpg',
+    description: 'A very simple website for the single use of allowing users to contact them via a form.',
+    skillsUsed: ['cib:react'],
+  },
 ];
 
 function MyWork() {
-  const slider = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const lastScrollLeft = useRef<number>(0);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isLeftArrowDisabled, setIsLeftArrowDisabled] = useState<boolean>(true);
+
+  function testCb(entries) {
+    if (!sliderRef.current) return undefined;
+
+    // find the active slide
+    const activeSlide = entries.reduce((max, entry) => (entry.intersectionRatio > max.intersectionRatio ? entry : max));
+    console.log(activeSlide);
+    setCurrentSlide(Array.from(sliderRef.current.children).indexOf(activeSlide.target));
+    // console.log(Array.from(sliderRef.current.children).indexOf(activeSlide.target));
+  }
+
+  React.useEffect(() => {
+    if (!sliderRef.current) return undefined;
+
+    const observer = new IntersectionObserver(testCb, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5,
+    });
+
+    Array.from(sliderRef.current.children).forEach((child) => {
+      observer.observe(child);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   function handleClickLeft() {
-    if (!slider.current) return;
+    if (!sliderRef.current) return;
     setCurrentSlide((prevState) => prevState - 1);
-    const clientWidth = slider.current?.clientWidth;
-    const scrollLeft = slider.current?.scrollLeft;
+    const clientWidth = sliderRef.current?.clientWidth;
+    const scrollLeft = sliderRef.current?.scrollLeft;
 
     const scrollAmount = scrollLeft - clientWidth;
 
-    slider.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-
-    if (scrollAmount === 0) {
-      setIsLeftArrowDisabled(true);
-    }
+    sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
   }
 
   function handleClickRight(): void {
-    if (!slider.current) return;
+    if (!sliderRef.current) return;
     setCurrentSlide((prevState) => prevState + 1);
-    const clientWidth = slider.current?.clientWidth;
-    const scrollLeft = slider.current?.scrollLeft;
+    const clientWidth = sliderRef.current?.clientWidth;
+    const scrollLeft = sliderRef.current?.scrollLeft;
 
     const scrollAmount = scrollLeft + clientWidth;
 
-    slider.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-
-    if (scrollLeft - clientWidth < 0) {
-      setIsLeftArrowDisabled(false);
-    }
+    sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
   }
 
   return (
@@ -68,12 +92,12 @@ function MyWork() {
           <button disabled={currentSlide === 0} type="button" className="cursor-pointer mr-2 disabled:opacity-25" onClick={handleClickLeft}>
             <Icon icon="material-symbols:arrow-back-rounded" />
           </button>
-          <button disabled={currentSlide === 1} type="button" className="cursor-pointer disabled:opacity-25" onClick={handleClickRight}>
+          <button disabled={currentSlide === projects.length - 1} type="button" className="cursor-pointer disabled:opacity-25" onClick={handleClickRight}>
             <Icon icon="material-symbols:arrow-forward-rounded" />
           </button>
         </div>
       </div>
-      <div className={styles.slider} ref={slider}>
+      <div className={styles.slider} ref={sliderRef}>
         {projects.map(({
           title, description, skillsUsed, imageName,
         }) => (
