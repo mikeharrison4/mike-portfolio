@@ -4,13 +4,20 @@
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   overscroll-behavior-x: contain;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   > * {
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     padding: 3rem 0;
     cursor: pointer;
-    width: 100%;
     flex: 1 0 100%;
   }
 }

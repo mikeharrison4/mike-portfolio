@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Icon } from '@iconify-icon/react';
 import styles from './MyWork.module.scss';
 import Project from './Project';
+import useIntersectionObserver from '../useIntersectionObserver';
 
 type Work = {
   title: string,
@@ -29,42 +30,24 @@ const projects: Array<Work> = [
     description: 'A very simple website for the single use of allowing users to contact them via a form.',
     skillsUsed: ['cib:react'],
   },
+  {
+    title: 'MR Electrical 4',
+    imageName: 'mr-electrical.jpg',
+    description: 'A very simple website for the single use of allowing users to contact them via a form.',
+    skillsUsed: ['cib:react'],
+  },
 ];
 
 function MyWork() {
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const lastScrollLeft = useRef<number>(0);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const { sliderRef, currentSlide } = useIntersectionObserver();
 
-  function testCb(entries) {
-    if (!sliderRef.current) return undefined;
-
-    // find the active slide
-    const activeSlide = entries.reduce((max, entry) => (entry.intersectionRatio > max.intersectionRatio ? entry : max));
-    console.log(activeSlide);
-    setCurrentSlide(Array.from(sliderRef.current.children).indexOf(activeSlide.target));
-    // console.log(Array.from(sliderRef.current.children).indexOf(activeSlide.target));
-  }
-
-  React.useEffect(() => {
-    if (!sliderRef.current) return undefined;
-
-    const observer = new IntersectionObserver(testCb, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.5,
-    });
-
-    Array.from(sliderRef.current.children).forEach((child) => {
-      observer.observe(child);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  function handleClickLeft() {
+  function handleClickLeft(): void {
     if (!sliderRef.current) return;
-    setCurrentSlide((prevState) => prevState - 1);
+
+    const isScrolling = sliderRef.current.scrollLeft % sliderRef.current.clientWidth !== 0;
+
+    if (isScrolling) return;
+
     const clientWidth = sliderRef.current?.clientWidth;
     const scrollLeft = sliderRef.current?.scrollLeft;
 
@@ -75,7 +58,11 @@ function MyWork() {
 
   function handleClickRight(): void {
     if (!sliderRef.current) return;
-    setCurrentSlide((prevState) => prevState + 1);
+
+    const isScrolling = sliderRef.current.scrollLeft % sliderRef.current.clientWidth !== 0;
+
+    if (isScrolling) return;
+
     const clientWidth = sliderRef.current?.clientWidth;
     const scrollLeft = sliderRef.current?.scrollLeft;
 
