@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Icon } from '@iconify-icon/react';
 import styles from './MyWork.module.scss';
 import Project from './Project';
@@ -44,9 +44,14 @@ function MyWork() {
   function handleClickLeft(): void {
     if (!sliderRef.current) return;
 
-    const isScrolling = sliderRef.current.scrollLeft % sliderRef.current.clientWidth !== 0;
+    const isLastSlide = currentSlide === sliderRef.current.children.length - 1;
+    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth - 100) !== 0;
+    const isScrollingLast = (sliderRef.current.scrollLeft + 100) % (sliderRef.current.clientWidth - 100) !== 0;
 
-    if (isScrolling) return;
+    console.log(sliderRef.current.scrollLeft);
+
+    if (!isLastSlide && isScrolling) return;
+    if (isLastSlide && isScrollingLast) return;
 
     const clientWidth = sliderRef.current?.clientWidth;
     const scrollLeft = sliderRef.current?.scrollLeft;
@@ -59,7 +64,9 @@ function MyWork() {
   function handleClickRight(): void {
     if (!sliderRef.current) return;
 
-    const isScrolling = sliderRef.current.scrollLeft % sliderRef.current.clientWidth !== 0;
+    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth - 100) !== 0;
+
+    console.log(sliderRef.current.scrollLeft, sliderRef.current.clientWidth);
 
     if (isScrolling) return;
 
@@ -87,13 +94,14 @@ function MyWork() {
       <div className={styles.slider} ref={sliderRef}>
         {projects.map(({
           title, description, skillsUsed, imageName,
-        }) => (
+        }, index) => (
           <Project
             key={title}
             title={title}
             description={description}
             skillsUsed={skillsUsed}
             imageName={imageName}
+            activeSlide={currentSlide === index}
           />
         ))}
       </div>

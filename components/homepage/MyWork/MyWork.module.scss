@@ -16,8 +16,8 @@
   > * {
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    padding: 3rem 0;
     cursor: pointer;
-    flex: 1 0 100%;
+    padding: 3rem 0;
+    flex: 1 0 calc(100% - 100px);
   }
 }
