@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Icon } from '@iconify-icon/react';
 import styles from './MyWork.module.scss';
 import Project from './Project';
+import useIntersectionObserver from '../useIntersectionObserver';
 
 type Work = {
   title: string,
@@ -23,41 +24,58 @@ const projects: Array<Work> = [
     description: 'A very simple website for the single use of allowing users to contact them via a form.',
     skillsUsed: ['cib:react'],
   },
+  {
+    title: 'MR Electrical 3',
+    imageName: 'mr-electrical.jpg',
+    description: 'A very simple website for the single use of allowing users to contact them via a form.',
+    skillsUsed: ['cib:react'],
+  },
+  {
+    title: 'MR Electrical 4',
+    imageName: 'mr-electrical.jpg',
+    description: 'A very simple website for the single use of allowing users to contact them via a form.',
+    skillsUsed: ['cib:react'],
+  },
 ];
 
 function MyWork() {
-  const slider = useRef<HTMLDivElement>(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isLeftArrowDisabled, setIsLeftArrowDisabled] = useState<boolean>(true);
+  const { sliderRef, currentSlide } = useIntersectionObserver();
 
-  function handleClickLeft() {
-    if (!slider.current) return;
-    setCurrentSlide((prevState) => prevState - 1);
-    const clientWidth = slider.current?.clientWidth;
-    const scrollLeft = slider.current?.scrollLeft;
+  function handleClickLeft(): void {
+    if (!sliderRef.current) return;
+
+    const isLastSlide = currentSlide === sliderRef.current.children.length - 1;
+    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth - 100) !== 0;
+    const isScrollingLast = (sliderRef.current.scrollLeft + 100) % (sliderRef.current.clientWidth - 100) !== 0;
+
+    console.log(sliderRef.current.scrollLeft);
+
+    if (!isLastSlide && isScrolling) return;
+    if (isLastSlide && isScrollingLast) return;
+
+    const clientWidth = sliderRef.current?.clientWidth;
+    const scrollLeft = sliderRef.current?.scrollLeft;
 
     const scrollAmount = scrollLeft - clientWidth;
 
-    slider.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-
-    if (scrollAmount === 0) {
-      setIsLeftArrowDisabled(true);
-    }
+    sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
   }
 
   function handleClickRight(): void {
-    if (!slider.current) return;
-    setCurrentSlide((prevState) => prevState + 1);
-    const clientWidth = slider.current?.clientWidth;
-    const scrollLeft = slider.current?.scrollLeft;
+    if (!sliderRef.current) return;
+
+    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth - 100) !== 0;
+
+    console.log(sliderRef.current.scrollLeft, sliderRef.current.clientWidth);
+
+    if (isScrolling) return;
+
+    const clientWidth = sliderRef.current?.clientWidth;
+    const scrollLeft = sliderRef.current?.scrollLeft;
 
     const scrollAmount = scrollLeft + clientWidth;
 
-    slider.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-
-    if (scrollLeft - clientWidth < 0) {
-      setIsLeftArrowDisabled(false);
-    }
+    sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
   }
 
   return (
@@ -68,21 +86,22 @@ function MyWork() {
           <button disabled={currentSlide === 0} type="button" className="cursor-pointer mr-2 disabled:opacity-25" onClick={handleClickLeft}>
             <Icon icon="material-symbols:arrow-back-rounded" />
           </button>
-          <button disabled={currentSlide === 1} type="button" className="cursor-pointer disabled:opacity-25" onClick={handleClickRight}>
+          <button disabled={currentSlide === projects.length - 1} type="button" className="cursor-pointer disabled:opacity-25" onClick={handleClickRight}>
             <Icon icon="material-symbols:arrow-forward-rounded" />
           </button>
         </div>
       </div>
-      <div className={styles.slider} ref={slider}>
+      <div className={styles.slider} ref={sliderRef}>
         {projects.map(({
           title, description, skillsUsed, imageName,
-        }) => (
+        }, index) => (
           <Project
             key={title}
             title={title}
             description={description}
             skillsUsed={skillsUsed}
             imageName={imageName}
+            activeSlide={currentSlide === index}
           />
         ))}
       </div>
