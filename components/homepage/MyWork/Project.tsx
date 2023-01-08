@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Image from 'next/image';
 import styles from './MyWork.module.scss';
 
@@ -7,17 +7,20 @@ interface ProjectProps {
   description: string;
   imageName: string;
   skillsUsed: Array<string>;
+  activeSlide: boolean;
 }
 
 function Project({
   title, description, imageName, skillsUsed, activeSlide,
 }: ProjectProps) {
   return (
-    <div className={`grid grid-cols-2 ${activeSlide ? styles.activeSlide : styles.inactiveSlide}`}>
-      <Image src={`/${imageName}`} alt={title} width={640} height={323} className="rounded" />
-      <div className="px-6">
-        <h4 className="text-2xl font-bold text-darkslate-grey pb-3">{title}</h4>
-        <p>{description}</p>
+    <div className={`${activeSlide ? styles.activeSlide : styles.inactiveSlide}`}>
+      <div className="grid grid-cols-2">
+        <Image src={`/${imageName}`} alt={title} width={640} height={323} className="rounded" />
+        <div className="px-6">
+          <h4 className="text-2xl font-bold text-darkslate-grey pb-3">{title}</h4>
+          <p>{description}</p>
+        </div>
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ const useIntersectionObserver = () => {
     const activeSlide = entries.reduce((max, entry) => (
       entry.intersectionRatio > max.intersectionRatio ? entry : max));
 
-    if (!sliderRef.current || activeSlide.intersectionRatio < 0.5) return undefined;
+    if (!sliderRef.current || activeSlide.intersectionRatio < 1) return undefined;
 
     lastScrollRef.current = sliderRef.current.scrollLeft;
 
@@ -23,7 +23,7 @@ const useIntersectionObserver = () => {
     const observer = new IntersectionObserver(cb, {
       root: sliderRef.current,
       rootMargin: '0px',
-      threshold: 0.5,
+      threshold: 1,
     });
 
     Array.from(sliderRef.current.children).forEach((child) => {

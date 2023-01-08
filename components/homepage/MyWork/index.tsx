@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@iconify-icon/react';
 import styles from './MyWork.module.scss';
 import Project from './Project';
@@ -38,20 +38,51 @@ const projects: Array<Work> = [
   },
 ];
 
+const baseInactiveScale = 0.4;
+const baseActiveScale = 1.0;
+
 function MyWork() {
   const { sliderRef, currentSlide } = useIntersectionObserver();
+
+  function handleScroll() {
+    const slideWidth = (sliderRef.current.clientWidth - 100) * 0.001;
+
+    const presentSlide = sliderRef.current.children[currentSlide];
+    const nextSlide = sliderRef.current.children[currentSlide + 1];
+    const prevSlide = sliderRef.current.children[currentSlide - 1];
+
+    const nextSlideScaleAmount = (sliderRef.current.scrollLeft * 0.001)
+      + baseInactiveScale
+      - slideWidth
+      * currentSlide;
+
+    const presentSlideScaleAmount = (baseActiveScale - (sliderRef.current.scrollLeft * 0.001))
+      + slideWidth
+      * currentSlide;
+
+    const prevSlideScaleAmount = (sliderRef.current.scrollLeft * 0.001)
+      + baseInactiveScale
+      - slideWidth
+      * currentSlide;
+
+    if (presentSlideScaleAmount > baseInactiveScale && presentSlideScaleAmount < 1) {
+      presentSlide.children[0].style.transform = `scale(${presentSlideScaleAmount.toFixed(2)})`;
+    }
+
+    if (Number(nextSlideScaleAmount.toFixed(2)) <= 1) {
+      nextSlide.children[0].style.transform = `scale(${nextSlideScaleAmount.toFixed(2)})`;
+    }
+  }
 
   function handleClickLeft(): void {
     if (!sliderRef.current) return;
 
     const isLastSlide = currentSlide === sliderRef.current.children.length - 1;
     const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth - 100) !== 0;
-    const isScrollingLast = (sliderRef.current.scrollLeft + 100) % (sliderRef.current.clientWidth - 100) !== 0;
+    const isScrollingLast = (sliderRef.current.scrollLeft + 100)
+       % (sliderRef.current.clientWidth - 100) !== 0;
 
-    console.log(sliderRef.current.scrollLeft);
-
-    if (!isLastSlide && isScrolling) return;
-    if (isLastSlide && isScrollingLast) return;
+    if ((!isLastSlide && isScrolling) || (isLastSlide && isScrollingLast)) return;
 
     const clientWidth = sliderRef.current?.clientWidth;
     const scrollLeft = sliderRef.current?.scrollLeft;
@@ -65,8 +96,6 @@ function MyWork() {
     if (!sliderRef.current) return;
 
     const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth - 100) !== 0;
-
-    console.log(sliderRef.current.scrollLeft, sliderRef.current.clientWidth);
 
     if (isScrolling) return;
 
@@ -91,7 +120,7 @@ function MyWork() {
           </button>
         </div>
       </div>
-      <div className={styles.slider} ref={sliderRef}>
+      <div className={styles.slider} ref={sliderRef} onScroll={handleScroll}>
         {projects.map(({
           title, description, skillsUsed, imageName,
         }, index) => (

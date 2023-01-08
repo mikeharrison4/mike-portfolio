@@ -21,3 +21,22 @@
     flex: 1 0 calc(100% - 100px);
   }
 }
+
+.activeSlide {
+  > div {
+    transform: scale(1);
+    transform-origin: left;
+  }
+
+  //+ div > div {
+  //  transform: scale(0.4);
+  //  transform-origin: left;
+  //}
+}
+
+.inactiveSlide {
+  > div {
+    transform: scale(0.4);
+    transform-origin: left;
+  }
+}
