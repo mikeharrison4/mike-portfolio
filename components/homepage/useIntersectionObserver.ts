@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 
 const useIntersectionObserver = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
-  const lastScrollRef = useRef<number>(0);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const lastScrollLeftRef = useRef<number>(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   function cb(entries: any[]): void {
     // find the active slide
@@ -12,9 +12,9 @@ const useIntersectionObserver = () => {
 
     if (!sliderRef.current || activeSlide.intersectionRatio < 1) return undefined;
 
-    lastScrollRef.current = sliderRef.current.scrollLeft;
+    lastScrollLeftRef.current = sliderRef.current.scrollLeft;
 
-    return setCurrentSlide(Array.from(sliderRef.current.children).indexOf(activeSlide.target));
+    return setCurrentSlideIndex(Array.from(sliderRef.current.children).indexOf(activeSlide.target));
   }
 
   React.useEffect(() => {
@@ -34,7 +34,7 @@ const useIntersectionObserver = () => {
   }, []);
 
   return {
-    sliderRef, currentSlide, lastScrollRef,
+    sliderRef, currentSlideIndex, lastScrollLeftRef,
   };
 };
 

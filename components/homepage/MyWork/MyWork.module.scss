@@ -9,6 +9,10 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 
+  @media (prefers-reduced-motion) {
+    scroll-behavior: auto;
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -18,25 +22,35 @@
     scroll-snap-stop: always;
     cursor: pointer;
     padding: 3rem 0;
-    flex: 1 0 calc(100% - 100px);
+    flex: 1 0 100%;
   }
 }
 
-.activeSlide {
-  > div {
-    transform: scale(1);
-    transform-origin: left;
-  }
-
-  //+ div > div {
-  //  transform: scale(0.4);
-  //  transform-origin: left;
+.slide {
+  //> div {
+    //transform: scale(100%);
   //}
+
+  + div > div {
+    transform: scale(0.5);
+      transform-origin: left;
+    //opacity: 0.4;
+  }
 }
 
-.inactiveSlide {
-  > div {
-    transform: scale(0.4);
-    transform-origin: left;
-  }
+//.activeSlide {
+//  transform: scale(1);
+//  transform-origin: left;
+//  transition: all ease-in 0.25s;
+//}
+//
+//
+//.inactiveSlide {
+//  transform: scale(0.5);
+//  transform-origin: left;
+//  transition: all ease-in 0.25s;
+//}
+
+.hello {
+  background: red
 }

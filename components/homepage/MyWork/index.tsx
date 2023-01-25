@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify-icon/react';
 import styles from './MyWork.module.scss';
 import Project from './Project';
@@ -38,49 +38,89 @@ const projects: Array<Work> = [
   },
 ];
 
-const baseInactiveScale = 0.4;
-const baseActiveScale = 1.0;
+const baseScale = 0.5;
 
 function MyWork() {
-  const { sliderRef, currentSlide } = useIntersectionObserver();
+  const { sliderRef, currentSlideIndex, lastScrollLeftRef } = useIntersectionObserver();
+
+  // useEffect(() => {
+  //   if (!sliderRef.current) return;
+  //
+  //   const presentSlide = sliderRef.current.children[currentSlideIndex];
+  //   const nextSlide = sliderRef.current.children[currentSlideIndex + 1];
+  //   const prevSlide = sliderRef.current.children[currentSlideIndex - 1];
+  //
+  //   presentSlide.children[0].style.transform = 'scale(1)';
+  //   if (nextSlide) nextSlide.children[0].style.transform = 'scale(0.5)';
+  //   if (prevSlide) prevSlide.children[0].style.transform = 'scale(0.5)';
+  // }, [currentSlideIndex]);
 
   function handleScroll() {
-    const slideWidth = (sliderRef.current.clientWidth - 100) * 0.001;
+    if (!sliderRef.current) return;
 
-    const presentSlide = sliderRef.current.children[currentSlide];
-    const nextSlide = sliderRef.current.children[currentSlide + 1];
-    const prevSlide = sliderRef.current.children[currentSlide - 1];
+    const isScrollingLeft = sliderRef.current.scrollLeft > lastScrollLeftRef.current;
 
-    const nextSlideScaleAmount = (sliderRef.current.scrollLeft * 0.001)
-      + baseInactiveScale
-      - slideWidth
-      * currentSlide;
+    const { scrollLeft, scrollWidth } = sliderRef.current;
+    const { clientWidth } = sliderRef.current;
 
-    const presentSlideScaleAmount = (baseActiveScale - (sliderRef.current.scrollLeft * 0.001))
-      + slideWidth
-      * currentSlide;
+    const decimalScrollLeftAmount = scrollLeft / clientWidth;
+    const scrollLeftPercentage = decimalScrollLeftAmount % 1 === 0
+      ? 1
+      : decimalScrollLeftAmount % 1;
 
-    const prevSlideScaleAmount = (sliderRef.current.scrollLeft * 0.001)
-      + baseInactiveScale
-      - slideWidth
-      * currentSlide;
+    const decimalScrollRightAmount = (clientWidth - (scrollLeft - clientWidth * currentSlideIndex))
+      / clientWidth;
+    const scrollRightPercentage = decimalScrollRightAmount % 1 === 0
+      ? 1
+      : decimalScrollRightAmount % 1;
 
-    if (presentSlideScaleAmount > baseInactiveScale && presentSlideScaleAmount < 1) {
-      presentSlide.children[0].style.transform = `scale(${presentSlideScaleAmount.toFixed(2)})`;
+    if (isScrollingLeft) {
+      const currentIndex = Math.floor(scrollLeft / clientWidth);
+
+      // console.log(scrollLeft, clientWidth * currentIndex);
+
+      const presentSlide = sliderRef.current.children[currentIndex];
+      const nextSlide = sliderRef.current.children[currentIndex + 1];
+
+      const halfToFullScale = scrollLeftPercentage / 2 + baseScale;
+
+      if (scrollLeft === clientWidth * currentIndex) {
+        presentSlide.children[0].style.transform = 'scale(1)';
+      } else {
+        presentSlide.children[0].style.transform = `scale(${1 - scrollLeftPercentage / 2})`;
+      }
+
+      if (nextSlide) nextSlide.children[0].style.transform = `scale(${halfToFullScale})`;
     }
 
-    if (Number(nextSlideScaleAmount.toFixed(2)) <= 1) {
-      nextSlide.children[0].style.transform = `scale(${nextSlideScaleAmount.toFixed(2)})`;
+    if (!isScrollingLeft) {
+      const currentIndex = Math.ceil(scrollLeft / clientWidth);
+
+      // console.log(scrollLeft, lastScrollLeftRef.current + clientWidth);
+      console.log(scrollLeft, clientWidth * currentIndex);
+
+      const presentSlide = sliderRef.current.children[currentIndex];
+      const prevSlide = sliderRef.current.children[currentIndex - 1];
+
+      const halfToFullScale = scrollRightPercentage / 2 + baseScale;
+
+      if (scrollLeft === clientWidth * currentIndex) {
+        presentSlide.children[0].style.transform = 'scale(1)';
+      } else {
+        presentSlide.children[0].style.transform = `scale(${1 - scrollRightPercentage / 2}`;
+      }
+
+      if (prevSlide) prevSlide.children[0].style.transform = `scale(${halfToFullScale})`;
     }
   }
 
   function handleClickLeft(): void {
     if (!sliderRef.current) return;
 
-    const isLastSlide = currentSlide === sliderRef.current.children.length - 1;
-    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth - 100) !== 0;
-    const isScrollingLast = (sliderRef.current.scrollLeft + 100)
-       % (sliderRef.current.clientWidth - 100) !== 0;
+    const isLastSlide = currentSlideIndex === sliderRef.current.children.length - 1;
+    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth) !== 0;
+    const isScrollingLast = (sliderRef.current.scrollLeft)
+       % (sliderRef.current.clientWidth) !== 0;
 
     if ((!isLastSlide && isScrolling) || (isLastSlide && isScrollingLast)) return;
 
@@ -95,7 +135,7 @@ function MyWork() {
   function handleClickRight(): void {
     if (!sliderRef.current) return;
 
-    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth - 100) !== 0;
+    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth) !== 0;
 
     if (isScrolling) return;
 
@@ -112,10 +152,10 @@ function MyWork() {
       <div className="flex justify-between">
         <h3 className="font-bold text-3xl text-darkslate-grey mb-3">My Work</h3>
         <div className="text-3xl">
-          <button disabled={currentSlide === 0} type="button" className="cursor-pointer mr-2 disabled:opacity-25" onClick={handleClickLeft}>
+          <button disabled={currentSlideIndex === 0} type="button" className="cursor-pointer mr-2 disabled:opacity-25" onClick={handleClickLeft}>
             <Icon icon="material-symbols:arrow-back-rounded" />
           </button>
-          <button disabled={currentSlide === projects.length - 1} type="button" className="cursor-pointer disabled:opacity-25" onClick={handleClickRight}>
+          <button disabled={currentSlideIndex === projects.length - 1} type="button" className="cursor-pointer disabled:opacity-25" onClick={handleClickRight}>
             <Icon icon="material-symbols:arrow-forward-rounded" />
           </button>
         </div>
@@ -130,7 +170,7 @@ function MyWork() {
             description={description}
             skillsUsed={skillsUsed}
             imageName={imageName}
-            activeSlide={currentSlide === index}
+            activeSlide={currentSlideIndex === index}
           />
         ))}
       </div>
