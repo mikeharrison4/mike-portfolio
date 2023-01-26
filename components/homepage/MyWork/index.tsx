@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify-icon/react';
 import test from 'node:test';
+import { log } from 'util';
 import styles from './MyWork.module.scss';
-import Project from './Project';
+import Slide from './Slide';
 import useIntersectionObserver from '../useIntersectionObserver';
-import {log} from "util";
 
 type Work = {
   title: string,
@@ -21,7 +21,13 @@ const projects: Array<Work> = [
     skillsUsed: ['cib:react'],
   },
   {
-    title: 'MR Electrical',
+    title: 'MR Electrical 1',
+    imageName: 'mr-electrical.jpg',
+    description: 'A very simple website for the single use of allowing users to contact them via a form.',
+    skillsUsed: ['cib:react'],
+  },
+  {
+    title: 'MR Electrical 2',
     imageName: 'mr-electrical.jpg',
     description: 'A very simple website for the single use of allowing users to contact them via a form.',
     skillsUsed: ['cib:react'],
@@ -32,105 +38,64 @@ const projects: Array<Work> = [
     description: 'A very simple website for the single use of allowing users to contact them via a form.',
     skillsUsed: ['cib:react'],
   },
-  {
-    title: 'MR Electrical 4',
-    imageName: 'mr-electrical.jpg',
-    description: 'A very simple website for the single use of allowing users to contact them via a form.',
-    skillsUsed: ['cib:react'],
-  },
 ];
 
 const baseScale = 0.5;
 
 function MyWork() {
-  const { sliderRef, currentSlideIndex, lastScrollLeftRef } = useIntersectionObserver();
-
-  // function handleScroll() {
+  // function handleClickLeft(): void {
   //   if (!sliderRef.current) return;
   //
-  //   const { scrollLeft, clientWidth } = sliderRef.current;
-  //   const isScrollingLeft = scrollLeft > lastScrollLeftRef.current;
+  //   const isLastSlide = currentSlideIndex === sliderRef.current.children.length - 1;
+  //   const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth) !== 0;
+  //   const isScrollingLast = (sliderRef.current.scrollLeft)
+  //      % (sliderRef.current.clientWidth) !== 0;
   //
-  //   lastScrollLeftRef.current = scrollLeft;
+  //   if ((!isLastSlide && isScrolling) || (isLastSlide && isScrollingLast)) return;
   //
-  //   const decimalScrollLeftAmount = scrollLeft / clientWidth;
-  //   const scrollLeftPercentage = decimalScrollLeftAmount % 1 === 0
-  //     ? 1
-  //     : decimalScrollLeftAmount % 1;
+  //   const clientWidth = sliderRef.current?.clientWidth;
+  //   const scrollLeft = sliderRef.current?.scrollLeft;
   //
-  //   const decimalScrollRightAmount = (clientWidth - (scrollLeft - clientWidth * currentSlideIndex))
-  //     / clientWidth;
-  //   const scrollRightPercentage = decimalScrollRightAmount % 1 === 0
-  //     ? 1
-  //     : decimalScrollRightAmount % 1;
+  //   const scrollAmount = scrollLeft - clientWidth;
   //
-  //   if (isScrollingLeft) {
-  //     const currentIndex = Math.floor(scrollLeft / clientWidth);
-  //     const presentSlide = sliderRef.current.children[currentIndex];
-  //     const nextSlide = sliderRef.current.children[currentIndex + 1];
+  //   sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+  // }
   //
-  //     // console.log(scrollLeft);
+  // function handleClickRight(): void {
+  //   if (!sliderRef.current) return;
   //
-  //     const halfToFullScale = scrollLeftPercentage / 2 + baseScale;
+  //   const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth) !== 0;
   //
-  //     if (scrollLeft === clientWidth * currentIndex) {
-  //       presentSlide.children[0].style.transform = 'scale(1)';
-  //     } else {
-  //       presentSlide.children[0].style.transform = `scale(${1 - scrollLeftPercentage / 2})`;
-  //     }
+  //   if (isScrolling) return;
   //
-  //     if (nextSlide) nextSlide.children[0].style.transform = `scale(${halfToFullScale})`;
-  //   }
+  //   const clientWidth = sliderRef.current?.clientWidth;
+  //   const scrollLeft = sliderRef.current?.scrollLeft;
   //
-  //   if (!isScrollingLeft) {
-  //     const currentIndex = Math.ceil(scrollLeft / clientWidth);
-  //     const presentSlide = sliderRef.current.children[currentIndex];
-  //     const prevSlide = sliderRef.current.children[currentIndex - 1];
+  //   const scrollAmount = scrollLeft + clientWidth;
   //
-  //     const halfToFullScale = scrollRightPercentage / 2 + baseScale;
-  //
-  //     if (scrollLeft === clientWidth * currentIndex) {
-  //       presentSlide.children[0].style.transform = 'scale(1)';
-  //     } else {
-  //       presentSlide.children[0].style.transform = `scale(${1 - scrollRightPercentage / 2}`;
-  //       // presentSlide.children[0].style.scrollBehavior = 'smooth';
-  //     }
-  //
-  //     if (prevSlide) prevSlide.children[0].style.transform = `scale(${halfToFullScale})`;
-  //   }
+  //   sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
   // }
 
-  function handleClickLeft(): void {
-    if (!sliderRef.current) return;
+  const { sliderRef, currentSlideIndex, lastScrollLeftRef } = useIntersectionObserver();
 
-    const isLastSlide = currentSlideIndex === sliderRef.current.children.length - 1;
-    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth) !== 0;
-    const isScrollingLast = (sliderRef.current.scrollLeft)
-       % (sliderRef.current.clientWidth) !== 0;
+  // things I need to do
+  // Re-order slides do √
 
-    if ((!isLastSlide && isScrolling) || (isLastSlide && isScrollingLast)) return;
+  const [centreSlideIndex, setCentreSlideIndex] = useState(0);
 
-    const clientWidth = sliderRef.current?.clientWidth;
-    const scrollLeft = sliderRef.current?.scrollLeft;
-
-    const scrollAmount = scrollLeft - clientWidth;
-
-    sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+  function rotateArray(arr: Work[], count = 1): Work[] {
+    return [
+      ...arr.slice(count),
+      ...arr.slice(0, count),
+    ];
   }
 
-  function handleClickRight(): void {
-    if (!sliderRef.current) return;
+  function handleClickLeft() {
+    setCentreSlideIndex((currentIndex) => currentIndex - 1);
+  }
 
-    const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth) !== 0;
-
-    if (isScrolling) return;
-
-    const clientWidth = sliderRef.current?.clientWidth;
-    const scrollLeft = sliderRef.current?.scrollLeft;
-
-    const scrollAmount = scrollLeft + clientWidth;
-
-    sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+  function handleClickRight() {
+    setCentreSlideIndex((currentIndex) => currentIndex + 1);
   }
 
   return (
@@ -147,16 +112,16 @@ function MyWork() {
         </div>
       </div>
       <div className={styles.slider} ref={sliderRef}>
-        {projects.map(({
+        {rotateArray(projects, centreSlideIndex - 1).map(({
           title, description, skillsUsed, imageName,
         }, index) => (
-          <Project
+          <Slide
             key={title}
             title={title}
             description={description}
             skillsUsed={skillsUsed}
             imageName={imageName}
-            activeSlide={currentSlideIndex === index}
+            isCenteredSlide={index === 1}
           />
         ))}
       </div>
