@@ -8,6 +8,9 @@
   overscroll-behavior-x: contain;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
 
   @media (prefers-reduced-motion) {
     scroll-behavior: auto;
@@ -23,20 +26,28 @@
     cursor: pointer;
     padding: 3rem 0;
     flex: 1 0 100%;
+    -webkit-transform-style: preserve-3d;
   }
 }
 
 .slide {
-  //> div {
-    //transform: scale(100%);
-  //}
+  > div {
+    transition: all .75s ease;
 
-  + div > div {
-    transform: scale(0.5);
-      transform-origin: left;
-    //opacity: 0.4;
+    &.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &.inactive {
+      opacity: 0.4;
+      transform: scale(0.95);
+    }
   }
+
 }
+
+
 
 //.activeSlide {
 //  transform: scale(1);

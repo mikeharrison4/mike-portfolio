@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify-icon/react';
+import test from 'node:test';
 import styles from './MyWork.module.scss';
 import Project from './Project';
 import useIntersectionObserver from '../useIntersectionObserver';
+import {log} from "util";
 
 type Work = {
   title: string,
@@ -43,76 +45,60 @@ const baseScale = 0.5;
 function MyWork() {
   const { sliderRef, currentSlideIndex, lastScrollLeftRef } = useIntersectionObserver();
 
-  // useEffect(() => {
+  // function handleScroll() {
   //   if (!sliderRef.current) return;
   //
-  //   const presentSlide = sliderRef.current.children[currentSlideIndex];
-  //   const nextSlide = sliderRef.current.children[currentSlideIndex + 1];
-  //   const prevSlide = sliderRef.current.children[currentSlideIndex - 1];
+  //   const { scrollLeft, clientWidth } = sliderRef.current;
+  //   const isScrollingLeft = scrollLeft > lastScrollLeftRef.current;
   //
-  //   presentSlide.children[0].style.transform = 'scale(1)';
-  //   if (nextSlide) nextSlide.children[0].style.transform = 'scale(0.5)';
-  //   if (prevSlide) prevSlide.children[0].style.transform = 'scale(0.5)';
-  // }, [currentSlideIndex]);
-
-  function handleScroll() {
-    if (!sliderRef.current) return;
-
-    const isScrollingLeft = sliderRef.current.scrollLeft > lastScrollLeftRef.current;
-
-    const { scrollLeft, scrollWidth } = sliderRef.current;
-    const { clientWidth } = sliderRef.current;
-
-    const decimalScrollLeftAmount = scrollLeft / clientWidth;
-    const scrollLeftPercentage = decimalScrollLeftAmount % 1 === 0
-      ? 1
-      : decimalScrollLeftAmount % 1;
-
-    const decimalScrollRightAmount = (clientWidth - (scrollLeft - clientWidth * currentSlideIndex))
-      / clientWidth;
-    const scrollRightPercentage = decimalScrollRightAmount % 1 === 0
-      ? 1
-      : decimalScrollRightAmount % 1;
-
-    if (isScrollingLeft) {
-      const currentIndex = Math.floor(scrollLeft / clientWidth);
-
-      // console.log(scrollLeft, clientWidth * currentIndex);
-
-      const presentSlide = sliderRef.current.children[currentIndex];
-      const nextSlide = sliderRef.current.children[currentIndex + 1];
-
-      const halfToFullScale = scrollLeftPercentage / 2 + baseScale;
-
-      if (scrollLeft === clientWidth * currentIndex) {
-        presentSlide.children[0].style.transform = 'scale(1)';
-      } else {
-        presentSlide.children[0].style.transform = `scale(${1 - scrollLeftPercentage / 2})`;
-      }
-
-      if (nextSlide) nextSlide.children[0].style.transform = `scale(${halfToFullScale})`;
-    }
-
-    if (!isScrollingLeft) {
-      const currentIndex = Math.ceil(scrollLeft / clientWidth);
-
-      // console.log(scrollLeft, lastScrollLeftRef.current + clientWidth);
-      console.log(scrollLeft, clientWidth * currentIndex);
-
-      const presentSlide = sliderRef.current.children[currentIndex];
-      const prevSlide = sliderRef.current.children[currentIndex - 1];
-
-      const halfToFullScale = scrollRightPercentage / 2 + baseScale;
-
-      if (scrollLeft === clientWidth * currentIndex) {
-        presentSlide.children[0].style.transform = 'scale(1)';
-      } else {
-        presentSlide.children[0].style.transform = `scale(${1 - scrollRightPercentage / 2}`;
-      }
-
-      if (prevSlide) prevSlide.children[0].style.transform = `scale(${halfToFullScale})`;
-    }
-  }
+  //   lastScrollLeftRef.current = scrollLeft;
+  //
+  //   const decimalScrollLeftAmount = scrollLeft / clientWidth;
+  //   const scrollLeftPercentage = decimalScrollLeftAmount % 1 === 0
+  //     ? 1
+  //     : decimalScrollLeftAmount % 1;
+  //
+  //   const decimalScrollRightAmount = (clientWidth - (scrollLeft - clientWidth * currentSlideIndex))
+  //     / clientWidth;
+  //   const scrollRightPercentage = decimalScrollRightAmount % 1 === 0
+  //     ? 1
+  //     : decimalScrollRightAmount % 1;
+  //
+  //   if (isScrollingLeft) {
+  //     const currentIndex = Math.floor(scrollLeft / clientWidth);
+  //     const presentSlide = sliderRef.current.children[currentIndex];
+  //     const nextSlide = sliderRef.current.children[currentIndex + 1];
+  //
+  //     // console.log(scrollLeft);
+  //
+  //     const halfToFullScale = scrollLeftPercentage / 2 + baseScale;
+  //
+  //     if (scrollLeft === clientWidth * currentIndex) {
+  //       presentSlide.children[0].style.transform = 'scale(1)';
+  //     } else {
+  //       presentSlide.children[0].style.transform = `scale(${1 - scrollLeftPercentage / 2})`;
+  //     }
+  //
+  //     if (nextSlide) nextSlide.children[0].style.transform = `scale(${halfToFullScale})`;
+  //   }
+  //
+  //   if (!isScrollingLeft) {
+  //     const currentIndex = Math.ceil(scrollLeft / clientWidth);
+  //     const presentSlide = sliderRef.current.children[currentIndex];
+  //     const prevSlide = sliderRef.current.children[currentIndex - 1];
+  //
+  //     const halfToFullScale = scrollRightPercentage / 2 + baseScale;
+  //
+  //     if (scrollLeft === clientWidth * currentIndex) {
+  //       presentSlide.children[0].style.transform = 'scale(1)';
+  //     } else {
+  //       presentSlide.children[0].style.transform = `scale(${1 - scrollRightPercentage / 2}`;
+  //       // presentSlide.children[0].style.scrollBehavior = 'smooth';
+  //     }
+  //
+  //     if (prevSlide) prevSlide.children[0].style.transform = `scale(${halfToFullScale})`;
+  //   }
+  // }
 
   function handleClickLeft(): void {
     if (!sliderRef.current) return;
@@ -160,7 +146,7 @@ function MyWork() {
           </button>
         </div>
       </div>
-      <div className={styles.slider} ref={sliderRef} onScroll={handleScroll}>
+      <div className={styles.slider} ref={sliderRef}>
         {projects.map(({
           title, description, skillsUsed, imageName,
         }, index) => (
