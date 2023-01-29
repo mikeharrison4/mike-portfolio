@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@iconify-icon/react';
-import test from 'node:test';
-import { log } from 'util';
 import styles from './MyWork.module.scss';
 import Slide from './Slide';
 import useIntersectionObserver from '../useIntersectionObserver';
@@ -38,95 +36,89 @@ const projects: Array<Work> = [
     description: 'A very simple website for the single use of allowing users to contact them via a form.',
     skillsUsed: ['cib:react'],
   },
+  {
+    title: 'MR Electrical 4',
+    imageName: 'mr-electrical.jpg',
+    description: 'A very simple website for the single use of allowing users to contact them via a form.',
+    skillsUsed: ['cib:react'],
+  },
 ];
 
-const baseScale = 0.5;
+const getPositionRelativeToCentralSlide = (
+  title,
+  index: number,
+  centralSlideIndex: number,
+  totalSlides: number,
+  draggedRatio: number = 0,
+): number => {
+  const slidesToLeftOfCentre = Math.ceil((totalSlides - 1) / 2);
+  // Creates a loop, moving a slide right as the central slide index
+  // increases and then suddenly moving it to the far left and back to the center
+  // e.g. 0 -> +1 -> +2 -> -2 -> -1 -> 0
+  // console.log(title, index, centralSlideIndex, slidesToLeftOfCentre, totalSlides, '====>', (((index - centralSlideIndex + slidesToLeftOfCentre) + totalSlides) % totalSlides) - slidesToLeftOfCentre);
+
+  return (
+    ((((index - centralSlideIndex + slidesToLeftOfCentre) % totalSlides)
+        + totalSlides)
+      % totalSlides)
+    - slidesToLeftOfCentre
+    + draggedRatio
+  );
+};
 
 function MyWork() {
-  // function handleClickLeft(): void {
-  //   if (!sliderRef.current) return;
-  //
-  //   const isLastSlide = currentSlideIndex === sliderRef.current.children.length - 1;
-  //   const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth) !== 0;
-  //   const isScrollingLast = (sliderRef.current.scrollLeft)
-  //      % (sliderRef.current.clientWidth) !== 0;
-  //
-  //   if ((!isLastSlide && isScrolling) || (isLastSlide && isScrollingLast)) return;
-  //
-  //   const clientWidth = sliderRef.current?.clientWidth;
-  //   const scrollLeft = sliderRef.current?.scrollLeft;
-  //
-  //   const scrollAmount = scrollLeft - clientWidth;
-  //
-  //   sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-  // }
-  //
-  // function handleClickRight(): void {
-  //   if (!sliderRef.current) return;
-  //
-  //   const isScrolling = sliderRef.current.scrollLeft % (sliderRef.current.clientWidth) !== 0;
-  //
-  //   if (isScrolling) return;
-  //
-  //   const clientWidth = sliderRef.current?.clientWidth;
-  //   const scrollLeft = sliderRef.current?.scrollLeft;
-  //
-  //   const scrollAmount = scrollLeft + clientWidth;
-  //
-  //   sliderRef.current?.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-  // }
-
   const { sliderRef, currentSlideIndex, lastScrollLeftRef } = useIntersectionObserver();
-
-  // things I need to do
-  // Re-order slides do √
-
   const [centreSlideIndex, setCentreSlideIndex] = useState(0);
-
-  function rotateArray(arr: Work[], count = 1): Work[] {
+  function rotateArray(arr, count = 1) {
     return [
-      ...arr.slice(count),
+      ...arr.slice(count, arr.length),
       ...arr.slice(0, count),
     ];
   }
 
   function handleClickLeft() {
-    setCentreSlideIndex((currentIndex) => currentIndex - 1);
+    setCentreSlideIndex((currentIndex) => (currentIndex + -1) % projects.length);
   }
 
   function handleClickRight() {
-    setCentreSlideIndex((currentIndex) => currentIndex + 1);
+    setCentreSlideIndex((currentIndex) => (currentIndex + 1) % projects.length);
   }
+
+  const slidesArr = projects.map(({
+    title, description, skillsUsed, imageName,
+  }, index: number) => (
+    <Slide
+      key={title}
+      title={title}
+      description={description}
+      skillsUsed={skillsUsed}
+      imageName={imageName}
+      positionRelativeToCentre={getPositionRelativeToCentralSlide(
+        title,
+        index,
+        centreSlideIndex,
+        projects.length,
+      )}
+    />
+  ));
 
   return (
     <div>
       <div className="flex justify-between">
         <h3 className="font-bold text-3xl text-darkslate-grey mb-3">My Work</h3>
         <div className="text-3xl">
-          <button disabled={currentSlideIndex === 0} type="button" className="cursor-pointer mr-2 disabled:opacity-25" onClick={handleClickLeft}>
+          <button type="button" className="cursor-pointer mr-2 disabled:opacity-25" onClick={handleClickLeft}>
             <Icon icon="material-symbols:arrow-back-rounded" />
           </button>
-          <button disabled={currentSlideIndex === projects.length - 1} type="button" className="cursor-pointer disabled:opacity-25" onClick={handleClickRight}>
+          <button type="button" className="cursor-pointer disabled:opacity-25" onClick={handleClickRight}>
             <Icon icon="material-symbols:arrow-forward-rounded" />
           </button>
         </div>
       </div>
       <div className={styles.slider} ref={sliderRef}>
-        {rotateArray(projects, centreSlideIndex - 1).map(({
-          title, description, skillsUsed, imageName,
-        }, index) => (
-          <Slide
-            key={title}
-            title={title}
-            description={description}
-            skillsUsed={skillsUsed}
-            imageName={imageName}
-            isCenteredSlide={index === 1}
-          />
-        ))}
+        {rotateArray(slidesArr, centreSlideIndex - 1)}
       </div>
     </div>
   );
 }
-
 export default MyWork;
