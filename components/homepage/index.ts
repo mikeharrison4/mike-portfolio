@@ -1,5 +1,5 @@
-import HeaderHero from './HeaderHero';
-import About from './About';
-import MyWork from './MyWork';
+import HeaderHero from './header-hero';
+import About from './about';
+import MyWork from './my-work';
 
 export { HeaderHero, About, MyWork };

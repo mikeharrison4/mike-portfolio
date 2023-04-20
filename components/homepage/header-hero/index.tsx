@@ -22,7 +22,7 @@ function HeaderHero() {
         transition={{
           duration: 0.75,
         }}
-        className="opacity-10 m-auto w-4/5 sm:w-3/5 md:w-2/5"
+        className="opacity-20 m-auto w-4/5 sm:w-3/5 md:w-2/5"
       >
         <MapSvg />
       </motion.div>
@@ -42,7 +42,7 @@ function HeaderHero() {
             duration: 0.75,
           }}
         >
-          <Image src="/mikeharrison.jpg" alt="Mike Harrison" width={100} height={200} className="rounded-full" priority />
+          <Image src="/mikeharrison.jpg" alt="Mike Harrison" width={150} height={200} className="rounded-full" priority />
         </motion.div>
         <motion.div
           initial={{

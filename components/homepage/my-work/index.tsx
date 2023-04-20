@@ -63,9 +63,9 @@ function MyWork() {
   }
 
   return (
-    <div>
+    <>
       <div className="flex justify-between">
-        <h3 className="font-bold text-3xl text-darkslate-grey mb-3">My Work</h3>
+        <h3 className="font-bold text-3xl text-darkslate-grey mb-10">My Work</h3>
         <div className="text-3xl">
           <button disabled={currentSlideIndex === 0} type="button" className="cursor-pointer mr-2 disabled:opacity-25" onClick={handleClickLeft}>
             <Icon icon="material-symbols:arrow-back-rounded" />
@@ -89,7 +89,7 @@ function MyWork() {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
