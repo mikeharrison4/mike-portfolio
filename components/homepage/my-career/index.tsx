@@ -7,6 +7,7 @@ type Job = {
   date:string;
   title: string;
   description: string
+  present?: boolean;
 }
 
 const jobs: Array<Job> = [
@@ -14,8 +15,9 @@ const jobs: Array<Job> = [
     company: 'Selfridges',
     logo: 'selfridges-logo.svg',
     date: 'Apr 2022 - Present',
-    title: 'fill',
-    description: 'hello',
+    title: 'Frontend Engineer',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+    present: true,
   },
   {
     company: 'American Express',
@@ -48,15 +50,15 @@ function MyCareer() {
         <div className="block ml-[25px] absolute h-full border-l-2 border-solid sm:hidden" />
         <div className="sm:flex sm:items-baseline sm:justify-between">
           { jobs.map((job) => (
-            <div className="flex sm:w-1/4 sm:flex-col justify-center sm:items-center mb-5">
+            <div key={job.date} className="px-2 flex sm:w-1/4 sm:flex-col justify-center sm:items-center mb-5">
               <div>
                 <div className="w-[50px] h-[50px] sm:w-[100px] sm:h-[100px] relative">
                   <Image src={`/${job.logo}`} alt="Amex Logo" fill className="rounded" />
                 </div>
               </div>
-              <div className="bg-gray-100 w-full p-3 text-center sm:mt-3">
+              <div className={`${job.present ? 'bg-darkslate-grey text-white' : 'bg-gray-100'} rounded w-full p-5 text-center ml-3 sm:ml-0 sm:mt-3`}>
                 <span className="text-xs">{job.date}</span>
-                <h5 className="font-bold mt-3">{job.company}</h5>
+                <h5 className="font-bold mt-3 mb-1">{job.company}</h5>
                 <h6 className="text-xs">{job.title}</h6>
                 <p className="text-xs mt-3">{job.description}</p>
               </div>
