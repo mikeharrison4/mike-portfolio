@@ -24,7 +24,6 @@
     scroll-snap-align: start;
     scroll-snap-stop: always;
     cursor: pointer;
-    padding: 3rem 0;
     flex: 1 0 100%;
     -webkit-transform-style: preserve-3d;
   }
@@ -44,24 +43,4 @@
       transform: scale(0.95);
     }
   }
-
-}
-
-
-
-//.activeSlide {
-//  transform: scale(1);
-//  transform-origin: left;
-//  transition: all ease-in 0.25s;
-//}
-//
-//
-//.inactiveSlide {
-//  transform: scale(0.5);
-//  transform-origin: left;
-//  transition: all ease-in 0.25s;
-//}
-
-.hello {
-  background: red
 }
