@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { Timeline } from '../Career/Timeline';
 
 type Job = {
   company: string;
@@ -42,8 +43,10 @@ const jobs: Array<Job> = [
 function MyCareer() {
   return (
     <>
-      <h3 className="font-bold text-3xl text-darkslate-grey mb-10 text-right">My Career</h3>
-      <div className="relative flex justify-between flex flex-row sm:flex-row">
+      <h3 className="font-bold text-3xl text-darkslate-grey mb-10">My Career</h3>
+      <Timeline />
+
+      <div className="mt-10 relative flex justify-between flex flex-row sm:flex-row">
         <div className="hidden absolute w-full top-[50px] -z-10 sm:block">
           <hr className="border-t-2 border-solid" />
         </div>

@@ -1,6 +1,8 @@
-import HeaderHero from './HeaderHero';
-import About from './About';
-import MyWork from './MyWork';
-import Career from './Career';
+import HeaderHero from './header-hero';
+import About from './about';
+import MyWork from './my-work';
+import Career from './my-career';
 
-export { HeaderHero, About, MyWork, Career };
+export {
+  HeaderHero, About, MyWork, Career,
+};
